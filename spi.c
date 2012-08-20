@@ -11,7 +11,7 @@ void spi_sd_init() {
 
 	// set up MOSI/MISO pins
 	mPin_Config_SPI1_RX();
-	mPin_Config_SPI1_RX();
+	mPin_Config_SPI1_TX();
 
 	//SPI1STATCLR = 1<<6; // clear SPIROV (not needed)
 
