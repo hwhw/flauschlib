@@ -8,7 +8,7 @@
 #define GetInstructionClock()         (GetSystemClock())
 
 /* library feature config */
-#define UART_TX_INTERRUPTS
+// #define UART_TX_INTERRUPTS
 
 /* Pin configuration */
 
@@ -50,8 +50,8 @@
 
 /* convenience / board features */
 
-#define mInitAllLEDs()      LATAbits.LATA10=0;TRISAbits.TRISA10=0;LATBbits.LATB15=0;TRISBbits.TRISB15=0;
-#define mInitAllSwitches()  TRISBbits.TRISB7=1;
+#define mInitAllLEDs()      LATACLR=0x400;LATBCLR=0x8000;TRISACLR=0x400;TRISBCLR=0x8000;
+#define mInitAllSwitches()  TRISBSET=0x80; /* TRISB7=1; */
 #define sw2                 PORTBbits.RB7
 
 #define mLED_1              LATBbits.LATB15
@@ -60,14 +60,14 @@
 #define mGetLED_1()         mLED_1
 #define mGetLED_2()         mLED_2
 
-#define mLED_1_On()         mLED_1 = 1;
-#define mLED_2_On()         mLED_2 = 1;
+#define mLED_1_On()         LATBSET = 0x8000; /* LATB15 */
+#define mLED_2_On()         LATASET = 0x400; /* LATA10 */
 
-#define mLED_1_Off()        mLED_1 = 0;
-#define mLED_2_Off()        mLED_2 = 0;
+#define mLED_1_Off()        LATBCLR = 0x8000; /* LATB15 */
+#define mLED_2_Off()        LATACLR = 0x400; /* LATA10 */
 
-#define mLED_1_Toggle()     mLED_1 = !mLED_1;
-#define mLED_2_Toggle()     mLED_2 = !mLED_2;
+#define mLED_1_Toggle()     LATBINV = 0x8000; /* LATB15 */
+#define mLED_2_Toggle()     LATAINV = 0x400; /* LATA10 */
 
 
 #endif // _FLAUSCH_PLATFORM_CONFIG_H
