@@ -9,7 +9,7 @@ void __attribute__ ((nomips16,interrupt(ipl5),vector(_TIMER_3_VECTOR))) systick_
 
 void systick_init() {
 	/* set up timer 2 for life indicator */
-	PR3 = 500;
+	PR3 = 50;
 	T3CON = 0x8030; // enable, prescaler=1/8 -> 5 MHz
 	IPC3bits.T3IP = 5;
 	IEC0bits.T3IE = 1;
