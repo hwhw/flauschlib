@@ -74,7 +74,7 @@ int wait_ready(void) {
 		delay100usec(1);
 	}
 
-uart_puts("wait_ready result="); uart_puthex(d); uart_puts("\r\n");
+//uart_puts("wait_ready result="); uart_puthex(d); uart_puts("\r\n");
 
 	return (d == 0xFF) ? 1 : 0;
 }
@@ -241,7 +241,7 @@ DSTATUS disk_initialize() {
 
 	ty = 0;
 	if (send_cmd(CMD0, 0) == 1) { /* Enter Idle state */
-uart_puts("idle\r\n");
+//uart_puts("idle\r\n");
 		if (send_cmd(CMD8, 0x1AA) == 1) { /* SDv2? */
 			for (n = 0; n < 4; n++)
 				buf[n] = rcvr_spi(); /* Get trailing return value of R7 resp */
@@ -277,15 +277,16 @@ uart_puts("idle\r\n");
 	CardType = ty;
 	if (ty) {/* Initialization succeded */
 		s &= ~STA_NOINIT;
-uart_puts("success\r\n");
+//uart_puts("success\r\n");
 		// 6. increase speed
-/*
-		SPI2CON = 0; // disable the SPI2 module
-		SPI2BRG = 0; // maximum possible baud rate = Fpb/2
-		SPI2CON = 0x8120; // re-enable the SPI2 module
-*/
+
+		SD_SPI_CON = 0; /* ON=0 */
+		SD_SPI_BRG = 0; /* 20 MHz */
+		SD_SPI_CON = 0x8120; /* ON=1, MODE32=0, MODE16=0, CKE=1, MSTEN=1 */
+
+
 	} else {
-uart_puts("fail\r\n");
+//uart_puts("fail\r\n");
 		/* Initialization failed */
 		s |= STA_NOINIT;
 	}
